@@ -1,8 +1,18 @@
-name:"welcome"
-on:[push]
+on:
+  workflow_run:
+    workflows: ["Workflow Tester"]
+    types: [completed] #requested
+
+
 jobs:
-    job-message-action:
+  on-success:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      -run:echo"welcome to node.js"
-      -run:echo"current os is ${{runner.os}}
+      [...]
+  
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      [...]
